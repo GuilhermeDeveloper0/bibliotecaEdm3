@@ -1,0 +1,88 @@
+{% load static %}
+{% load bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Biblioteca{% endblock title %}</title>
+    {% bootstrap_css %}
+    <style>
+        main > .container {
+            padding: 60px 15px 0;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column h-100">
+    
+    <header>
+      <!-- Fixed navbar -->
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#"><img src="" width="30" alt="">Biblioteca</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'realizar_emprestimo' %}">Emprestimo</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'listar_livro' %}">Livros</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'listar_autor' %}">Autor</a>
+              </li>
+            </ul>
+            <form class="d-flex" role="search" method="get" action="{% url 'index' %}">
+              <input class="form-control me-2" name="q" type="search" placeholder="Pesquisar" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Pesquisar</button>
+            </form>
+            {% if user.is_authenticated %}
+            <span class="fw-bold text-white me-2">{{ user.username }}</span>
+            <a class="btn btn-warning" href="{% url 'logout' %}" role="button">Logout</a>
+          {% else %}
+          <a class="btn btn-primary me-2" href="{% url 'login' %}" role="button">Login</a>
+          <a class="btn btn-warning" href="{% url 'registration' %}" role="button">Cadastrar</a>
+          {% endif %}
+          </div>
+        </div>
+      </nav>
+    </header>
+    
+    <!-- Begin page content -->
+    <main class="flex-shrink-0">
+    {% bootstrap_messages %}
+    <div class="container my-4">
+      {% block content %}
+      <div class="p-4 p-md-5 mb-4 rounded bg-dark text-white">
+        <div class="row">
+          <div class="col-md-6 align-middle">
+            <h1 class="display-4 fst-italic">biblioteca digital </h1>
+            <p class="lead my-3">O melhor acervo de livros para os seus estudos.</p>
+            <p class="lead mb-0"><a href="{% url 'listar_livro' %}" class="text-white fw-bold">Veja os livros aqui...</a></p>
+          </div>
+          <div class="col-md-6">
+            <img src="{% static 'img/livros.png' %}" class="mx-auto d-block" width="300" >
+          </div>
+        </div>
+      </div>
+        {% endblock content %}
+      </div>
+    </main>
+    
+    <footer class="footer mt-auto py-3 bg-light ">
+      <div class="container">
+        <span class="text-muted">Dev. GUILHERME</span>
+      </div>
+    </footer>
+    
+        {% bootstrap_javascript %}
+      </body>
+
+</html>
